@@ -21,3 +21,6 @@ This project is aimed to help reduce water usage and to tap into alternative wat
 2. Ultrasound Water Level
 3. Valve Motor
 
+## Interfaces
+
+Using Mbed studio and NUCLEOSTM32 board
