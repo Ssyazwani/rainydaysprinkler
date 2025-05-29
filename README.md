@@ -9,7 +9,8 @@ This project is aimed to help reduce water usage and to tap into alternative wat
 
 ## Circuit Design
 
-<img width="544" alt="image" src="https://github.com/user-attachments/assets/20c0439a-d0af-4409-8bd1-1548f237b93e" />
+<img width="515" alt="image" src="https://github.com/user-attachments/assets/ababb57f-756e-4f98-9a74-f2409ea1dd09" />
+
 
 ## Flow Chart
 
