@@ -5,6 +5,8 @@
 //H6 - Valve - PB1
 //H7 - Soil Moisture - PC8,PC9
 
+
+
 #include "mbed.h"
 
 DigitalOut trigger(PA_0);
@@ -16,7 +18,7 @@ DigitalOut red_LED(PC_0);
 DigitalOut green_LED(PC_1);
 DigitalOut blue_LED(PC_2);
 
-DigitalIn controlInput(PB1);
+
 DigitalOut valve(PB_1);
 
 Timer echoTimer;
@@ -54,7 +56,7 @@ int main(){
         float distance = getDistanceCM();
         printf("Distnance:%.2fcm\n", distance);
 
-        if (distance <100.0f)
+        if (distance <4.0f) //4cm
         printf("Enough water\n");
         else
         printf("Not Enough Water\n");
