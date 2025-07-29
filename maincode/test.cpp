@@ -5,7 +5,7 @@
 //H6 - Valve - PB1
 //H7 - Soil Moisture - PC8,PC9
 
-
+#undef __ARM_FP
 
 #include "mbed.h"
 
