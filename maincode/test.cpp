@@ -9,10 +9,10 @@
 
 #include "mbed.h"
 
-DigitalOut trigger(PA_0);
-DigitalIn echo (PA_2);
+DigitalOut trigger(PA_2);// edit the PIN
+DigitalIn echo (PA_3);//edit the PIN
 
-AnalogIn soilSensor(PC_8);
+//AnalogIn soilSensor(PC_8); the soilsensor PIN is wrong
 
 DigitalOut red_LED(PC_0);
 DigitalOut green_LED(PC_1);
