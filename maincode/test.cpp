@@ -18,7 +18,6 @@ DigitalOut red_LED(PC_0);
 DigitalOut green_LED(PC_1);
 DigitalOut blue_LED(PC_2);
 
-
 DigitalOut valve(PB_1);
 
 Timer echoTimer;
@@ -35,11 +34,15 @@ float getDistanceCM(){
     wait_us(10);
     trigger =0;
 
-    while(echo ==0);
+    while(echo ==0){
+
+    }
         echoTimer.reset();
         echoTimer.start();
 
-    while(echo ==1);
+    while(echo ==1){
+
+    }
     echoTimer.stop();
 
     float duration_us = echoTimer.read_us();
@@ -54,9 +57,9 @@ int main(){
     while(true){
         //Sensor
         float distance = getDistanceCM();
-        printf("Distnance:%.2fcm\n", distance);
+        printf("Distance:%.2fcm\n", distance);
 
-        if (distance <4.0f) //4cm
+        if (distance <4.0f)
         printf("Enough water\n");
         else
         printf("Not Enough Water\n");
@@ -70,21 +73,22 @@ int main(){
             green_LED = 0;
             blue_LED = 0;
 
+            //Valve
+            valve =1;
+            printf("Valve Open\n");
+
         } else {
             red_LED = 0;
             green_LED = 0;
             blue_LED = 0;
-        }
 
-        //Valve
 
-        if(controlInput == 1){
-            valve =1;
-            printf("Valve Open\n");
-        } else{
+            //Valve
             valve =0;
             printf("Valve Closed\n");
         }
+
+        
 
         thread_sleep_for(1000);
     }
