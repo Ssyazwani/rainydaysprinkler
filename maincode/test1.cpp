@@ -5,10 +5,11 @@
 //H6 - Valve - PB1
 //H7 - Soil Moisture - PC8,PC9
 
-//Switch utrasensor
+// Switch utrasensor
 // it might be wiring and voltage problem - Valve, sensor needs 5 V for output
-//our microcontroller GPIO is only 3.3V, need breadboard and resistors
+// our microcontroller GPIO is only 3.3V, need breadboard and resistors
 // will edit the hardware wiring tmr
+// polling mode
 
 // but can be used
 
