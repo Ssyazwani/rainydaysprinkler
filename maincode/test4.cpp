@@ -1,6 +1,6 @@
 //valve needed alot of current to work
-//it works but the code seems to be wrong ( code in test3)
-//i tried to edit the code to match our flowchart, 
+//it works but the code seems to be wrong (code in test3), wrong as in it doesnt match flowchart
+//edit to match flowchart, will test out ASAP
 
 
 
@@ -20,15 +20,19 @@
 #define WAIT_TIME_MS_7 3000
 #define WAIT_TIME_MS_8 4000
 
+#define MAX_COUNT 20  // Define based on distance expected from your sensor
+#define WATER_AVAILABLE_THRESHOLD_CM 20 // MAX distance is 20 cm, Water is available if distance < 30 cm
+#define WATER_LOW_LEVEL 1 // lowest level is 1 cm
+
 
 // Ultrasonic sensor pins
 DigitalOut Trig(PB_8);
 DigitalIn Echo(PB_9);
 
 // Valve and RGB LEDs
-DigitalOut valve(PB_1);       // Active high
-DigitalOut red_LED(PC_0);     // Red = watering
-DigitalOut green_LED(PC_1);   // Green = moist
+DigitalOut waterPump (PB_7);       // Control WaterPump
+DigitalOut red_LED(PC_0);     // Red = stop water pump - wet
+DigitalOut green_LED(PC_1);   // Green = start water pump - dry
 DigitalOut blue_LED(PC_2);    // Blue = no water
 
 // Soil moisture sensors
@@ -67,7 +71,7 @@ int main() {
         if (Echo == 1) {
             // Echo still high after max count → too far
             printf("No water (distance is too far)\n");
-            valve = 0;
+            waterPump = 0;
             setLEDColor(0, 0, 1); // Blue LED
             thread_sleep_for(1000);
             continue;
@@ -78,33 +82,41 @@ int main() {
         printf("Water level: %.2f cm\n", objDistance);
 
         if (objDistance < WATER_AVAILABLE_THRESHOLD_CM) {
+
+            if(objDistance < WATER_LOW_LEVEL){ // water level too low, stop pump
+                printf("Water Level is too low");
+                waterPump = 0;
+                setLEDColor(1,0,0); // Red LED
+                thread_for_speed(1000);
+                continue;
+            }
             // Water is available
             if (Moist_DRY == 1) {
                 // Soil is dry → start watering
                 printf("Soil is dry. Watering...\n");
-                valve = 1;
-                setLEDColor(1, 0, 0); // Red LED
+                waterPump = 1;
+                setLEDColor(0, 1, 0); // Green LED
 
                 // Wait until soil becomes wet
                 while (Moist_DRY == 1) {
-                    thread_sleep_for(10000); // Check every 0.5s
+                    thread_sleep_for(1000); // Check every 1s
                 }
 
                 // Stop watering
-                valve = 0;
-                setLEDColor(0, 1, 0); // Green LED
+                waterPump = 0;
+                setLEDColor(1, 0, 0); // Red LED
                 printf("Soil is now wet. Stopped watering.\n");
 
             } else {
                 // Soil is already wet
-                valve = 0;
-                setLEDColor(0, 1, 0); // Green LED
+                waterPump = 0;
+                setLEDColor(1, 0, 0); // Red LED
                 printf("Soil is already wet. No watering needed.\n");
             }
 
         } else {
             // Water is NOT available
-            valve = 0;
+            waterPump = 0;
             setLEDColor(0, 0, 1); // Blue LED
             printf("Water not available. Valve remains OFF.\n");
         }
