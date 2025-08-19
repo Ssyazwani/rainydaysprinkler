@@ -21,8 +21,7 @@
 #define WAIT_TIME_MS_8 4000
 
 #define MAX_COUNT 20  // Define based on distance expected from your sensor
-#define WATER_AVAILABLE_THRESHOLD_CM 20 // MAX distance is 20 cm, Water is available if distance < 30 cm
-#define WATER_LOW_LEVEL 1 // lowest level is 1 cm
+#define WATER_AVAILABLE_THRESHOLD_CM 6.5 // MAX distance is 20 cm, Water is available if distance < 30 cm
 
 
 // Ultrasonic sensor pins
@@ -79,17 +78,10 @@ int main() {
 
         // Calculate distance (in cm)
         objDistance = (0.03432 * 58 * Count) / 2;
-        printf("Water level: %.2f cm\n", objDistance);
+        printf("Distance Between Sensor and Water: %.2f cm\n", objDistance);
 
         if (objDistance < WATER_AVAILABLE_THRESHOLD_CM) {
 
-            if(objDistance < WATER_LOW_LEVEL){ // water level too low, stop pump
-                printf("Water Level is too low");
-                waterPump = 0;
-                setLEDColor(1,0,0); // Red LED
-                thread_for_speed(1000);
-                continue;
-            }
             // Water is available
             if (Moist_DRY == 1) {
                 // Soil is dry → start watering

@@ -17,7 +17,7 @@
 #define WAIT_TIME_MS_8 4000
 
 #define MAX_COUNT 20  // Define based on distance expected from your sensor
-#define WATER_AVAILABLE_THRESHOLD_CM 20 // MAX distance is 20 cm, Water is available if distance < 30 cm
+#define WATER_AVAILABLE_THRESHOLD_CM 6.5f // MAX distance is 20 cm, Water is available if distance < 30 cm
 #define WATER_LOW_LEVEL 1 // lowest level is 1 cm
 
 
@@ -78,17 +78,10 @@ int main() {
 
         // Calculate distance (in cm)
         objDistance = (0.03432 * 58 * Count) / 2;
-        printf("Water level: %.2f cm\n", objDistance);
+        printf("Distance Between Sensor and Water: %.2f cm\n", objDistance);
 
         if (objDistance < WATER_AVAILABLE_THRESHOLD_CM) {
 
-            if(objDistance < WATER_LOW_LEVEL){ // water level too low, stop pump
-                printf("Water Level is too low");
-                waterPump = 0;
-                setLEDColor(0, 0, 1); // Red LED
-                thread_sleep_for(10000); 
-                continue;
-            }
             // Water is available
             if (dryoverride || Moist_DRY == 1) {
                 // Soil is dry → start watering
@@ -99,6 +92,8 @@ int main() {
                 waterPump = 0;
                 setLEDColor(1, 0, 0); // Red LED
                 printf("Soil is now wet. Stopped watering.\n");
+
+          
 
             } else {
                 // Soil is already wet
